@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,8 +12,9 @@ public class Player : MonoBehaviour
     public float jumpForce = 5f;
     Camera playerCamera;
     public TMP_Text playerHealth;
-    int playerPV = 100;
-    private int damagePerSecond = 25;
+    private const int PLAYERMAXPV = 100;
+    int playerPV = PLAYERMAXPV;
+    private int damagePerSecond = 1;
     public Animator gameOverAnimation;
     public TMP_Text gameOverTXT;
     float timer = 0f;
@@ -68,8 +70,16 @@ public class Player : MonoBehaviour
 
     void LoseHealth()
     {
-        playerPV -= damagePerSecond;   
+        playerPV -= damagePerSecond;
+
+        playerPV = Mathf.Clamp(playerPV, 0, PLAYERMAXPV);
     }
 
+    internal void CollectMelon()
+    {
+        playerPV = playerPV + 20;
+
+        playerPV = Mathf.Clamp(playerPV, 0, PLAYERMAXPV);
+    }
    
 }

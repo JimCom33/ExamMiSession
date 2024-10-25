@@ -86,4 +86,12 @@ public class Player : MonoBehaviour
     {
         playerPV -= 20;
     }
+
+    public void Heal()
+    {
+        playerPV += 20;
+        playerPV = Mathf.Clamp(playerPV, 0, PLAYERMAXPV);
+
+        Debug.Log("Getting healed");
+    }
 }

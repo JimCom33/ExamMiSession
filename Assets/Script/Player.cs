@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class Player : MonoBehaviour
     Camera playerCamera;
     public TMP_Text playerHealth;
     int playerPV = 100;
-    private int damagePerSecond = 1;
+    private int damagePerSecond = 25;
+    public Animator gameOverAnimation;
+    public TMP_Text gameOverTXT;
+    float timer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,10 +53,23 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce);
         }
+
+        if (playerPV <= 0)
+        {
+            gameOverAnimation.SetTrigger("GameOver");
+            gameOverTXT.color = Color.white;
+            timer += Time.deltaTime;
+            if (timer >= 2f)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
     }
 
     void LoseHealth()
     {
         playerPV -= damagePerSecond;   
     }
+
+   
 }

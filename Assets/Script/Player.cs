@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,6 +9,9 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer;
     public float jumpForce = 5f;
     Camera playerCamera;
+    public TMP_Text playerHealth;
+    int playerPV = 100;
+    private int damagePerSecond = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -15,11 +19,17 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerCamera = Camera.main;
+
+        InvokeRepeating("LoseHealth", 1f, 1f);
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerHealth.text = "PV :" + playerPV;
+
         var cameraPos = playerCamera.transform.position;
         cameraPos.x = transform.position.x;
         playerCamera.transform.position = cameraPos;
@@ -39,5 +49,10 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce);
         }
+    }
+
+    void LoseHealth()
+    {
+        playerPV -= damagePerSecond;   
     }
 }

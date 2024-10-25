@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerCamera = Camera.main;
 
-        InvokeRepeating("LoseHealth", 1f, 1f);
+        InvokeRepeating("LoseHealthPerSec", 1f, 1f);
 
         
     }
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void LoseHealth()
+    void LoseHealthPerSec()
     {
         playerPV -= damagePerSecond;
 
@@ -81,5 +81,9 @@ public class Player : MonoBehaviour
 
         playerPV = Mathf.Clamp(playerPV, 0, PLAYERMAXPV);
     }
-   
+
+    internal void LoseHealth()
+    {
+        playerPV -= 20;
+    }
 }
